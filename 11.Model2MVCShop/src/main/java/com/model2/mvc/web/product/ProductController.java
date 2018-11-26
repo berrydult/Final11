@@ -2,8 +2,10 @@ package com.model2.mvc.web.product;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -173,7 +175,8 @@ public class ProductController {
 	//@RequestMapping("/listProduct.do")
 	//public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 	@RequestMapping(value = "listProduct")
-	public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
+	public String listProduct( @ModelAttribute("search") Search search , Model model, 
+								HttpServletRequest request, HttpServletResponse response ) throws Exception{
 		
 		System.out.println("/listProduct");
 		
@@ -188,7 +191,43 @@ public class ProductController {
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
+
+		request.setCharacterEncoding("euc-kr");
+		response.setCharacterEncoding("euc-kr");
+		String history = null;
+		Cookie[] cookies = request.getCookies();
+		Map<String, Object> cookieResult = new HashMap<String, Object>();
+		Map<String, Object> box = new HashMap<String, Object>();
+		
+		
+		if (cookies!=null && cookies.length > 0) {
+			for (int i = 0; i < cookies.length; i++) {
+				Cookie cookie = cookies[i];
+				if (cookie.getName().equals("history")) {
+					history = cookie.getValue();
+				}
+			}
+			if (history != null) {
+				String[] pieces = history.split(",");
+				for (int i = 0; i < pieces.length; i++) {
+					if (!pieces[i].equals("null")) {
+						box.put("piece", pieces);
+						Product product = productService.findProduct(Integer.parseInt(pieces[i]));
+						//int sessionId = ((Product)session.getAttribute("product")).getProdNo();
+						//session.setAttribute("prodNo", product);
+						
+						cookieResult.put("prodNo", product.getProdNo());
+						cookieResult.put("prodName", product.getProdName());
+						cookieResult.put("fileName", product.getFileName());
+					}
+				}
+			}
+		}
+		
 		// Model °ú View ¿¬°á
+		model.addAttribute("cookieResult",cookieResult);
+		model.addAttribute("box",box);
+		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);

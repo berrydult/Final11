@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=euc-kr"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@ page import="java.util.*"%>
 <html>
 <head>
 <title>상품 목록조회</title>
@@ -27,10 +27,15 @@
   <!-- jQuery UI toolTip 사용 JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
+    <style>
+       body > div.container{
+            margin-top: 50px;
+        }
+    </style>
     
     <style type="text/css">
 <!--
-	body {padding-top : 50px; font-size:11pt; padding:0; margin:0; position:relative;}
+	body {padding-top:50px; font-size:11pt; padding:0; margin:0; position:relative;}
 	h3 {color: #85144b; font-size: 14pt;}
 
 	.contents {width: 800px; margin: 0 auto; height: auto; background-color: #e0e0e0; padding: 20px;}
@@ -319,16 +324,16 @@
 		  	<c:set var="i" value="${ i+1 }" />
 		  	
 		<div class="col-sm-2 col-md-3">
-	     <div class="thumbnail"  style="height:350px;width:250px">
+	     <div class="thumbnail"  style="height:300px;width:250px">
 	     	<div class="showList">
 	      	<a href= "/product/getProduct?prodNo=${product.prodNo}&menu=search"><img src="/images/uploadFiles/${product.fileName}" style="height:190px;" data-param="${product.prodNo}"></a>
 	      	<input type="hidden" value="${product.prodNo}">
 		      <div class="caption">
-		        <h3>${product.prodName}</h3>
+		        <h3 align="center">${product.prodName}</h3>
 		        
-		        <p>${product.prodDetail}</p>
-		        <p><a href="#" class="btn btn-primary" role="button">구매하고싶어?</a>
-		        	 <a href="#" class="btn btn-default" role="button">Button</a></p>
+		        <p align="center">${product.prodDetail}</p>
+		       <!--  <p><a href="#" class="btn btn-primary" role="button">구매하고싶어?</a>
+		        	 <a href="#" class="btn btn-default" role="button">Button</a></p> -->
 		      </div>
 	   		</div>
 	   		</div>
@@ -343,33 +348,14 @@
 		<div id="banner" style="background-color:#FED2E6">
 			<span>최근 본 상품들</span>
 			<div id="" class="banner_contents" style="background-color:#FEFDC8">
-						상품명<br>
-
-<%
-	request.setCharacterEncoding("euc-kr");
-	response.setCharacterEncoding("euc-kr");
-	String history = null;
-	Cookie[] cookies = request.getCookies();
-	if (cookies!=null && cookies.length > 0) {
-		for (int i = 0; i < cookies.length; i++) {
-			Cookie cookie = cookies[i];
-			if (cookie.getName().equals("history")) {
-				history = cookie.getValue();
-			}
-		}
-		if (history != null) {
-			String[] h = history.split(",");
-			for (int i = 0; i < h.length; i++) {
-				if (!h[i].equals("null")) {
-%>			
-<a href="/product/getProduct?prodNo=<%=h[i]%>&menu=search" name="cookie"><%=h[i]%>${product.prodName}</a>
-<br>
-<%
-				}
-			}
-		}
-	}
-%>
+					상품명<br>
+			
+	<c:forEach var="product" items="${box}">
+		<a href="/product/getProduct?prodNo=${cookieResult.prodNo}&menu=search">
+			<img src="/images/uploadFiles/${cookieResult.fileName}" style="height:50px;"/><br>
+			${cookieResult.prodName}</a>
+		<br>
+	</c:forEach>
 </div>
 	<!-- </div> --> 
 		</div>
