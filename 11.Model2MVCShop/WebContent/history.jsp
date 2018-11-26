@@ -30,7 +30,7 @@
 				if (!h[i].equals("null")) {
 %>
 <a href="/getProduct.do?prodNo=<%=h[i]%>&menu=search"
-	target="rightFrame"><%=h[i]%></a>
+	target="rightFrame"><%-- <%=h[i]%> --%>${product.prodName}</a>
 <br>
 <%
 				}

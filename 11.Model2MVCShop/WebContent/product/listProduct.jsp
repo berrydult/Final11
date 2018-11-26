@@ -21,31 +21,26 @@
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
-   
+
    <!-- jQuery UI toolTip 사용 CSS-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- jQuery UI toolTip 사용 JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
-	<!--  ///////////////////////// CSS ////////////////////////// -->
-	<style>
-	  body {
-            padding-top : 50px;
-        }
-    </style>
     
     <style type="text/css">
 <!--
-	body {font-size:11pt; padding:0; margin:0;}
+	body {padding-top : 50px; font-size:11pt; padding:0; margin:0; position:relative;}
 	h3 {color: #85144b; font-size: 14pt;}
 
 	.contents {width: 800px; margin: 0 auto; height: auto; background-color: #e0e0e0; padding: 20px;}
 	.contents img {float: left; padding: 30px;}	
 
-	#banner { position: absolute; font-size: 8pt; top: 5px; left: 0; z-index: 10; background:#f1f1f1; padding:5px; border:1px solid #CCCCCC; text-align:center;}
+	#banner { position: absolute; font-size: 8pt; top: 150px; right: 100; z-index: 10; background:#f1f1f1; padding:5px; border:1px solid #CCCCCC; text-align:center;}
 	#banner > span {margin-bottom: 10px; display: block;}
 	.banner_contents {min-height: 200px; background-color: #c0c0c0; padding: 5px;}
+	
+	.row{margin-left:30px;margin-right:100px;}
 
 //-->
 </style>
@@ -73,7 +68,7 @@
  		
  		fncGetList(1);
  	}
- 	
+ 		 
 	$( function(){
 		 $( "button.btn.btn-default:contains('삭제')" ).on("click" , function() {
 			 fncDeleteProduct();
@@ -81,7 +76,6 @@
 	 });
 		 
 	$( function(){
-		// $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
 			$(  "button.btn.btn-default:contains('검색')" ).on("click" , function() {
 			 fncGetList('1');
 		 });
@@ -145,8 +139,8 @@
 	$(window).scroll(function() { 
 		$('#banner').animate({top:$(window).scrollTop()+"px" },{queue: false, duration: 500});
 	});
-
-
+	
+	
 
 </script>
 </head>
@@ -169,6 +163,7 @@
 			</c:if>
 	    </div>
 	    
+	    <c:if test = "${sessionScope.user.role == 'admin'}">
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
 	    <div class="row">
 	    
@@ -305,28 +300,79 @@
 	</tr>
 	
 	</c:forEach>	
-		
-</table> 
-
-<div style="position:relative;float:right;width:90px;top:-15px;right:-115px;"> 
-		<div id="banner">
-			<span>최근에 본 상품</span>
-			<div id="" class="banner_contents">
-				상품명들 
-			</div>
-		</div> 
-	</div>
+	</table> 
 	
-	<div style="float:right;">
-		<button type="button" class="btn btn-default">삭제</button>
-	</div>
+		<div style="float:right;">
+			<button type="button" class="btn btn-default">삭제</button>
+		</div>
 		
-	<!-- PageNavigation Start... -->
-	<jsp:include page="../common/pageNavigator_new.jsp"/>
-	<!-- PageNavigation End... -->
+		<!-- PageNavigation Start... -->
+		<jsp:include page="../common/pageNavigator_new.jsp"/>
+		<!-- PageNavigation End... -->
+	</c:if>	
+	
+			
+<c:if test = "${sessionScope.user.role == 'user'}">
+	<div class="row">
+	   <c:set var="i" value="0" />
+		  <c:forEach var="product" items="${list}">
+		  	<c:set var="i" value="${ i+1 }" />
+		  	
+		<div class="col-sm-2 col-md-3">
+	     <div class="thumbnail"  style="height:350px;width:250px">
+	     	<div class="showList">
+	      	<a href= "/product/getProduct?prodNo=${product.prodNo}&menu=search"><img src="/images/uploadFiles/${product.fileName}" style="height:190px;" data-param="${product.prodNo}"></a>
+	      	<input type="hidden" value="${product.prodNo}">
+		      <div class="caption">
+		        <h3>${product.prodName}</h3>
+		        
+		        <p>${product.prodDetail}</p>
+		        <p><a href="#" class="btn btn-primary" role="button">구매하고싶어?</a>
+		        	 <a href="#" class="btn btn-default" role="button">Button</a></p>
+		      </div>
+	   		</div>
+	   		</div>
+	   </div>
+	    
+	    </c:forEach>
+	  </div>
+</c:if>
+	
 
-</form>
+	<!-- <div style="position:relative; float:right; width:90px; top:-15px; right:-115px; background-color:red;"> --> 
+		<div id="banner" style="background-color:#FED2E6">
+			<span>최근 본 상품들</span>
+			<div id="" class="banner_contents" style="background-color:#FEFDC8">
+						상품명<br>
 
+<%
+	request.setCharacterEncoding("euc-kr");
+	response.setCharacterEncoding("euc-kr");
+	String history = null;
+	Cookie[] cookies = request.getCookies();
+	if (cookies!=null && cookies.length > 0) {
+		for (int i = 0; i < cookies.length; i++) {
+			Cookie cookie = cookies[i];
+			if (cookie.getName().equals("history")) {
+				history = cookie.getValue();
+			}
+		}
+		if (history != null) {
+			String[] h = history.split(",");
+			for (int i = 0; i < h.length; i++) {
+				if (!h[i].equals("null")) {
+%>			
+<a href="/product/getProduct?prodNo=<%=h[i]%>&menu=search" name="cookie"><%=h[i]%>${product.prodName}</a>
+<br>
+<%
+				}
+			}
+		}
+	}
+%>
+</div>
+	<!-- </div> --> 
+		</div>
 </div>
 </body>
 </html>

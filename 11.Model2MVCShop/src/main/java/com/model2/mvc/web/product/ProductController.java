@@ -69,7 +69,7 @@ public class ProductController {
 		System.out.println("/addProduct");
 		//Business Logic
 		String fileName = multipartFile.getOriginalFilename();
-		File file = new File("C:\\workspace01\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\" + fileName);
+		File file = new File("C:\\Users\\Bit\\git\\Final11\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\" + fileName);
 
 		multipartFile.transferTo(file); 
 		
@@ -159,7 +159,7 @@ public class ProductController {
 		System.out.println("/updateProduct");
 		//Business Logic
 		String fileName = multipartFile.getOriginalFilename();
-		File file = new File("C:\\workspace01\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\" + fileName);
+		File file = new File("C:\\Users\\Bit\\git\\Final11\\11.Model2MVCShop\\WebContent\\images\\uploadFiles\\" + fileName);
 
 		multipartFile.transferTo(file); 
 		
