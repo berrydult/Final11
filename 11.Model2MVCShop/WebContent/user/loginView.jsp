@@ -99,14 +99,14 @@
 					  <div class="form-group">
 					    <label for="userId" class="col-sm-4 control-label">아 이 디</label>
 					    <div class="col-sm-6">
-					      <input type="text" class="form-control" name="userId" id="userId"  placeholder="아이디" >
+					      <input type="text" class="form-control" name="userId" id="userId"  placeholder="아이디"  onKeyPress="if(event.keyCode=='13'){fncLogin()}">
 					    </div>
 					  </div>
 					  
 					  <div class="form-group">
 					    <label for="password" class="col-sm-4 control-label">패 스 워 드</label>
 					    <div class="col-sm-6">
-					      <input type="password" class="form-control" name="password" id="password" placeholder="패스워드" >
+					      <input type="password" class="form-control" name="password" id="password" placeholder="패스워드"  onKeyPress="if(event.keyCode=='13'){fncLogin()}" > 
 					    </div>
 					  </div>
 					  

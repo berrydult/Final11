@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -86,7 +87,7 @@ public class ProductController {
 	//@RequestMapping("/getProduct.do")
 	//public String getProduct( @RequestParam("prodNo") int prodNo , Model model, HttpServletRequest request, HttpServletResponse response ) throws Exception {
 	@RequestMapping(value="getProduct", method=RequestMethod.GET)
-	public String getProduct( @RequestParam("prodNo") int prodNo , Model model, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+	public String getProduct( @RequestParam("prodNo") int prodNo , @CookieValue(value="history", required=false) String history, Model model, HttpServletRequest request, HttpServletResponse response ) throws Exception {
 		
 		System.out.println("/getProduct");
 		//Business Logic
@@ -94,25 +95,39 @@ public class ProductController {
 		// Model 과 View 연결
 		model.addAttribute("product", product);
 		
-		Cookie[] cookies = request.getCookies();
+		
+		if(history == null || history.length() == 0) {
+			history = prodNo + "";
+		}else {
+			if(history.indexOf(prodNo+"") == -1) {
+				history = prodNo+"," + history;
+			}
+		}
+		
+		Cookie cookie = new Cookie("history",history);
+		cookie.setMaxAge(-1);
+		cookie.setPath("/");
+		response.addCookie(cookie);
+		
+		/*Cookie[] cookies = request.getCookies();
 		if (cookies != null && cookies.length > 0) {
 			System.out.println("기존 Cookie 이용");
 			for (int i = 0; i < cookies.length; i++) {
 				Cookie cookie = cookies[i];
 				if (cookie.getName().equals("history")) {
 					cookie.setValue(cookie.getValue() + "," + prodNo);
-					cookie.setMaxAge(60 * 60);
+					cookie.setMaxAge(-1);
 					cookie.setPath("/");
 					response.addCookie(cookie);
 				} else {
 					System.out.println("Cookie 첫 생성");
 					cookie = new Cookie("history", String.valueOf(prodNo));
-					cookie.setMaxAge(60 * 60);
+					cookie.setMaxAge(-1);
 					cookie.setPath("/");
 					response.addCookie(cookie);
 				}
 			}
-		}
+		}*/
 		
 		return "forward:/product/getProduct.jsp";
 	}
@@ -176,7 +191,8 @@ public class ProductController {
 	//public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
 	@RequestMapping(value = "listProduct")
 	public String listProduct( @ModelAttribute("search") Search search , Model model, 
-								HttpServletRequest request, HttpServletResponse response ) throws Exception{
+								HttpServletRequest request, HttpServletResponse response,
+								@CookieValue(value="history", required=false) String history ) throws Exception{
 		
 		System.out.println("/listProduct");
 		
@@ -194,39 +210,22 @@ public class ProductController {
 
 		request.setCharacterEncoding("euc-kr");
 		response.setCharacterEncoding("euc-kr");
-		String history = null;
-		Cookie[] cookies = request.getCookies();
-		Map<String, Object> cookieResult = new HashMap<String, Object>();
-		Map<String, Object> box = new HashMap<String, Object>();
 		
+		List<Product> cookieResult = new ArrayList<Product>();
 		
-		if (cookies!=null && cookies.length > 0) {
-			for (int i = 0; i < cookies.length; i++) {
-				Cookie cookie = cookies[i];
-				if (cookie.getName().equals("history")) {
-					history = cookie.getValue();
-				}
-			}
+			//Cookie[] cookies = request.getCookies();
 			if (history != null) {
 				String[] pieces = history.split(",");
-				for (int i = 0; i < pieces.length; i++) {
-					if (!pieces[i].equals("null")) {
-						box.put("piece", pieces);
-						Product product = productService.findProduct(Integer.parseInt(pieces[i]));
-						//int sessionId = ((Product)session.getAttribute("product")).getProdNo();
-						//session.setAttribute("prodNo", product);
-						
-						cookieResult.put("prodNo", product.getProdNo());
-						cookieResult.put("prodName", product.getProdName());
-						cookieResult.put("fileName", product.getFileName());
-					}
+				for (int i = 0; i < pieces.length; i++) { //쿠키 갯수만큼 반복
+					Product product = productService.findProduct(Integer.parseInt(pieces[i]));
+					cookieResult.add(product);
 				}
 			}
-		}
 		
 		// Model 과 View 연결
+			System.out.println("cookieResult"+cookieResult);
+
 		model.addAttribute("cookieResult",cookieResult);
-		model.addAttribute("box",box);
 		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);

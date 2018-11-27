@@ -70,7 +70,6 @@
 	}
 	
  	function fncPriceSort(){
- 		
  		fncGetList(1);
  	}
  		 
@@ -349,16 +348,16 @@
 			<span>최근 본 상품들</span>
 			<div id="" class="banner_contents" style="background-color:#FEFDC8">
 					상품명<br>
-			
-	<c:forEach var="product" items="${box}">
-		<a href="/product/getProduct?prodNo=${cookieResult.prodNo}&menu=search">
-			<img src="/images/uploadFiles/${cookieResult.fileName}" style="height:50px;"/><br>
-			${cookieResult.prodName}</a>
-		<br>
-	</c:forEach>
+	 <c:set var="i" value="0" />  	
+		<c:forEach var="product" items="${cookieResult}">
+			<c:set var="i" value="${ i+1 }" />
+					<img src="/images/uploadFiles/${product.fileName}" style="height:50px;"/><br>
+					${product.prodName}
+				<br>
+		</c:forEach>
 </div>
 	<!-- </div> --> 
-		</div>
+		</div>      
 </div>
 </body>
 </html>
