@@ -33,20 +33,20 @@
      </style>
 	<script type="text/javascript">
 	
-	$( function (){ 
+	/* $( function (){ 
 		 $( "button.btn.btn-primary:contains('확인')" ).on("click", function() {
 		 	self.location ="/product/listProduct?menu=manage"
 		 });
 	 });
-		 
+		  */
 	$( function (){ 
-		  $( "button.btn.btn-primary:contains('구매')" ).on("click", function() {
+		  $( "button.btn.btn-default:contains('구매')" ).on("click", function() {
 		 	self.location ="/purchase/addPurchase?prodNo=${product.prodNo}"
 		 });
 	  });
 		  
 	$( function (){ 	  
-		  $( "button.btn.btn-primary:contains('이전')" ).on("click" , function() {
+		  $( "button.btn.btn-default:contains('이전')" ).on("click" , function() {
 			history.go(-1);
 	 	 });
 	
@@ -116,15 +116,8 @@
 			<div class="col-xs-8 col-md-4">${product.regDate}</div>
 		</div>
 		
-
-		<c:if test="${param.menu == 'manage' }">
-			<div style="float:right;">
-				<button type="button" class="btn btn-default">확인</button>
-			</div>
-		</c:if>
-		
 		<c:if test="${param.menu == 'search' }">
-			<div style="float:right;">
+			<div style="float:right;"  data-param= "${product.prodNo}">
 				<button type="button" class="btn btn-default">구매</button>
 			</div>
 		</c:if>

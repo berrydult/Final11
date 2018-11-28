@@ -177,7 +177,7 @@
 		    	</p>
 		    </div>
 		    
-		    <div class="col-md-6 text-right">
+		    <div class="col-md-8  text-right">
 			    <form class="form-inline" name="detailForm">
 			    <div class="col-md-5 text-right form-group">	
 	            	<select class="form-control" name="priceSort" onchange="fncPriceSort()">
@@ -233,7 +233,8 @@
         </thead>
 			
 	<tbody>
-		
+	
+	<form class="form-inline" name="deleteForm">
 		  <c:set var="i" value="0" />
 		  <c:forEach var="product" items="${list}">
 		  	<c:set var="i" value="${ i+1 }" />
@@ -292,18 +293,19 @@
 		 </td>
 		 
 		 <c:if test= "${param.menu == 'manage'}">
+		 	
 			<td align="left"> 
 				<c:if test="${fn:trim(product.proTranCode) == '0'}">
-					<form class="form-inline" name="deleteForm">
-						<input type="checkbox" name="deleteProduct${i}" value="${product.prodNo}"> 
-					</form>
+					<input type="checkbox" name="deleteProduct" value="${product.prodNo}"> 
 				</c:if>			
 			</td>
+			
 		</c:if>
 		
 	</tr>
 	
 	</c:forEach>	
+	</form>
 	</table> 
 	
 		<div style="float:right;">

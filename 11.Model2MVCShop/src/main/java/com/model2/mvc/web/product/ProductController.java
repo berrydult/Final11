@@ -2,6 +2,7 @@ package com.model2.mvc.web.product;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +96,6 @@ public class ProductController {
 		// Model 과 View 연결
 		model.addAttribute("product", product);
 		
-		
 		if(history == null || history.length() == 0) {
 			history = prodNo + "";
 		}else {
@@ -109,48 +109,20 @@ public class ProductController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		
-		/*Cookie[] cookies = request.getCookies();
-		if (cookies != null && cookies.length > 0) {
-			System.out.println("기존 Cookie 이용");
-			for (int i = 0; i < cookies.length; i++) {
-				Cookie cookie = cookies[i];
-				if (cookie.getName().equals("history")) {
-					cookie.setValue(cookie.getValue() + "," + prodNo);
-					cookie.setMaxAge(-1);
-					cookie.setPath("/");
-					response.addCookie(cookie);
-				} else {
-					System.out.println("Cookie 첫 생성");
-					cookie = new Cookie("history", String.valueOf(prodNo));
-					cookie.setMaxAge(-1);
-					cookie.setPath("/");
-					response.addCookie(cookie);
-				}
-			}
-		}*/
-		
 		return "forward:/product/getProduct.jsp";
 	}
 
 	@RequestMapping(value="deleteProduct", method=RequestMethod.POST)
-	public String deleteProduct( @RequestParam(value = "deleteProduct1", required = false) Integer deleteProduct1,
-								 @RequestParam(value = "deleteProduct2", required = false) Integer deleteProduct2,
-								 @RequestParam(value = "deleteProduct3", required = false) Integer deleteProduct3, Model model ) throws Exception {
+	public String deleteProduct( @RequestParam(value = "deleteProduct", required = false) String deleteProduct,	 Model model ) throws Exception {
 		System.out.println("/deleteProduct");
+		System.out.println("deleteProduct: "+deleteProduct);
+		//Business Logic
 		List<Integer> prodNos = new ArrayList<Integer>();
-		
-		if (deleteProduct1 !=null ) {
-			prodNos.add(deleteProduct1);
-		}
-		if (deleteProduct2 !=null ) {
-			prodNos.add(deleteProduct2);
-		}
-		if (deleteProduct3 !=null ) {
-			prodNos.add(deleteProduct3);
+		String[] prodNoStr = deleteProduct.split(",");
+		for (String value:prodNoStr) {
+			prodNos.add(Integer.parseInt(value));
 		}
 		
-		System.out.println("prodNos: "+prodNos);
-		//Business Logic		
 		productService.deleteProduct(prodNos);
 		
 		return "redirect:/product/listProduct?menu=manage";
@@ -216,14 +188,14 @@ public class ProductController {
 			//Cookie[] cookies = request.getCookies();
 			if (history != null) {
 				String[] pieces = history.split(",");
-				for (int i = 0; i < pieces.length; i++) { //쿠키 갯수만큼 반복
+				for (int i = 0; i < pieces.length; i++) { 
 					Product product = productService.findProduct(Integer.parseInt(pieces[i]));
 					cookieResult.add(product);
 				}
 			}
 		
 		// Model 과 View 연결
-			System.out.println("cookieResult"+cookieResult);
+		System.out.println("cookieResult"+cookieResult);
 
 		model.addAttribute("cookieResult",cookieResult);
 		

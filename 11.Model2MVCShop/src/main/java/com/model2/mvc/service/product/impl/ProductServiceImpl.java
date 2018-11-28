@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public void deleteProduct(List<Integer> prodNos) throws Exception {
-		System.out.println("service");
+		System.out.println("prodNos:"+prodNos);
 		productDao.deleteProduct(prodNos);
 	}
 
