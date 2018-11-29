@@ -116,11 +116,10 @@
 			<div class="col-xs-8 col-md-4">${product.regDate}</div>
 		</div>
 		
-		<c:if test="${param.menu == 'search' }">
-			<div style="float:right;"  data-param= "${product.prodNo}">
+			<div style="float:right;">
 				<button type="button" class="btn btn-default">±¸¸Å</button>
 			</div>
-		</c:if>
+		
 			
 		<div class="row">
 			<div style="float:right;">

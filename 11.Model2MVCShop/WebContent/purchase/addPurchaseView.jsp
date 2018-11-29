@@ -31,7 +31,6 @@
 <script type="text/javascript">
 
 	function fncAddPurchase() {
-		document.addPurchase.submit();
 		
 		$("form").attr("method","POST").attr("action","/purchase/addPurchase").submit();
 	}
@@ -114,7 +113,7 @@
 		    <label for="prodDetail" class="col-sm-offset-1 col-sm-3 control-label">상품 구매자아이디</label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="buyerId" name="buyerId" placeholder="${user.userId}">
-		      <input type="hidden" name="buyerId" value="${user.userId}" />
+		      
 		    </div>
 		  </div>  
 	
