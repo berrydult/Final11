@@ -130,7 +130,7 @@
 		  </div>
 	
 		<div class="form-group">
-		    <label for="prodDetail" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
+		    <label for="price" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="price" name="price" placeholder="원">
 		    </div>

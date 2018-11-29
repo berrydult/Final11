@@ -53,23 +53,13 @@
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>물품번호</strong></div>
 			<div class="col-xs-8 col-md-4">${purchase.purchaseProd.prodNo}</div>
-		</div>9.
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	 	
+		</div>
 		
 		<hr/>
 		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>구매자아이디</strong></div>
-			<div class="col-xs-8 col-md-4">${user.userId}</div>
+			<div class="col-xs-8 col-md-4">${purchase.buyer.userId}</div>
 		</div>
 		
 		<hr/>

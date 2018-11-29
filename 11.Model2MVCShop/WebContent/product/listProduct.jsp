@@ -80,7 +80,7 @@
 	 });
 		 
 	$( function(){
-			$(  "button.btn.btn-default:contains('검색')" ).on("click" , function() {
+			$( "button.btn.btn-default:contains('검색')" ).on("click" , function() {
 			 fncGetList('1');
 		 });
 	 });
