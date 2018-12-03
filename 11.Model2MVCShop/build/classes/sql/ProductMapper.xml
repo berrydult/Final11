@@ -69,8 +69,17 @@
 												<if test="searchCondition == 2 and searchKeyword !='' ">
 									 				AND p.price LIKE '%'||#{searchKeyword}||'%'
 												</if>
+												<if test="priceSort == 0">
+													ORDER BY p.prod_no
+												</if>
+												<if test="priceSort == 1">
+													ORDER BY p.price DESC
+												</if>
+												<if test="priceSort == 2">
+													ORDER BY p.price 
+												</if>
 										</if>
-										ORDER BY p.prod_no ) inner_table
+										 ) inner_table
 					WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	  					
