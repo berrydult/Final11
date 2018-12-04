@@ -43,9 +43,9 @@
 			self.location = "/user/getUser?userId="+userId
 		});
 		
-		$(".ct_list_pop td:nth-child(11)").on("click", function(){
+		$("td:nth-child(6)").on("click", function(){
 			var tranNo = $(this).data("param0")
-			self.location = "/purchase/updateTranCode?tranNo="+tranNo+"&tranCode=2"
+			self.location = "/purchase/updateTranCode?tranNo="+tranNo+"&tranCode=3"
 		});
 		
 		$( ".ct_list_pop td:nth-child(3)" ).css("color" , "blue");

@@ -396,7 +396,10 @@
 	 <c:set var="i" value="0" />  	
 		<c:forEach var="product" items="${cookieResult}">
 			<c:set var="i" value="${ i+1 }" />
-					<img src="/images/uploadFiles/${product.fileName}" style="height:50px;"/><br>
+					<a href = "/product/getProduct?prodNo=${product.prodNo}">
+					<img src="/images/uploadFiles/${product.fileName}" style="height:50px;"/>
+					</a>
+					<br>
 					${product.prodName}
 				<br>
 		</c:forEach>
