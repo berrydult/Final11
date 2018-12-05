@@ -1,13 +1,11 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="EUC-KR"%>
 
 
 <!DOCTYPE html>
-
-<html lang="ko">
 	
 <head>
-	<meta charset="EUC-KR">
+	<meta charset="UTF-8">
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,7 +15,9 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	
+	<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
     	 body >  div.container{ 
@@ -28,7 +28,6 @@
     
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
-
 		//============= "로그인"  Event 연결 =============
 		$( function() {
 			
@@ -116,7 +115,22 @@
 					      <a class="btn btn-primary btn" href="#" role="button">회 &nbsp;원 &nbsp;가 &nbsp;입</a>
 					    </div>
 					  </div>
-			
+					  <!-- 네이버아이디로로그인 버튼 노출 영역 -->
+					  	<div id="naver_id_login"></div>
+					  	<script type="text/javascript">
+					 <!-- //네이버아이디로로그인 버튼 노출 영역 -->
+					  	var naver_id_login = new naver_id_login("9icZXfjJ6YvwOk71a213", "http://127.0.0.1:8080/user/callBack.jsp");
+					  	var state = naver_id_login.getUniqState();
+					  	naver_id_login.setButton("white", 2,40);
+					  	naver_id_login.setDomain("http://127.0.0.1:8080/user/loginView.jsp");
+					  	naver_id_login.setState(state);
+					  	naver_id_login.setPopup();
+					  	naver_id_login.init_naver_id_login();
+					 
+					 
+					 
+					  	</script>
+					 
 					</form>
 			   	 </div>
 			

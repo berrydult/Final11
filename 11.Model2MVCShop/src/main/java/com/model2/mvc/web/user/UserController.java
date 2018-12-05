@@ -124,7 +124,6 @@ public class UserController {
 		return "redirect:/index.jsp";
 	}
 		
-	
 	@RequestMapping( value="logout", method=RequestMethod.GET )
 	public String logout(HttpSession session ) throws Exception{
 		

@@ -53,4 +53,26 @@ public class UserRestController {
 		
 		return dbUser;
 	}
+	
+	@RequestMapping( value= "json/callBack", method=RequestMethod.POST)
+	public String  callBack(@RequestBody User user, HttpSession session)  throws Exception{
+		System.out.println("/user/json/callBack : POST");
+		user.setPassword("asdfg");
+		/*if(userService.getUser(user.getUserId()) == null) {
+			user.setPassword("패스워드");
+			userService.addUser(user);
+		}*/
+		
+		//User dbUser = userService.getUser(user.getUserId());
+		
+		if(userService.getUser(user.getUserId())!=null) {
+			session.setAttribute("user", user);
+		}else if(userService.getUser(user.getUserId())==null){
+			userService.addUser(user);
+			session.setAttribute("user", user);
+		}
+		
+		return "naverLogin";
+	}
+	
 }
