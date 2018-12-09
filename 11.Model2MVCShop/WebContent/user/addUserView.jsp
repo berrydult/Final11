@@ -37,6 +37,13 @@
 			});
 		});	
 		
+		 $(function() {
+				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+				$( "button.btn.btn-default" ).on("click" , function() {
+					self.location = "/user/mailSender"
+				});
+			});	
+		
 		
 		//============= "취소"  Event 처리 및  연결 =============
 		$(function() {
@@ -184,6 +191,9 @@
 		    </div>
 		    <div class="col-sm-3">
 		      <button type="button" class="btn btn-info">중복확인</button>
+		    </div>
+		    <div class="col-sm-3">
+		      <button type="button" class="btn btn-default">메일전송</button>
 		    </div>
 		  </div>
 		  
