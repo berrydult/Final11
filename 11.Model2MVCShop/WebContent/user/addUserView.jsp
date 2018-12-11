@@ -32,19 +32,58 @@
 		//============= "가입"  Event 연결 =============
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$( "button.btn.btn-primary" ).on("click" , function() {
+			$("#register").on("click" , function() {
 				fncAddUser();
 			});
 		});	
 		
 		 $(function() {
 				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-				$( "button.btn.btn-default" ).on("click" , function() {
-					self.location = "/user/mailSender"
+				$( "#send" ).on("click" , function() {
+					var email = $("#email").val();
+					console.log("11111");
+					 $.ajax(
+			 					{
+			 						url:"json/mailSender/"+email,
+			 						method:"GET",
+			 						dataType:"json",
+			 						headers : {
+										"Accept" : "application/json",
+										"Content-Type" : "application/json"
+									},
+									success : function(JSONData , status) {
+										console.log('메일 보내기 썽공');
+										
+									}
+			 					}); 
 				});
 			});	
-		
-		
+		 
+		 $(function() {
+				//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+				$( "#ok" ).on("click" , function() {
+					var userAuth = $("input[name='userAuth']").val();
+					console.log("222222");
+					console.log(userAuth);
+					$.ajax(
+		 					{
+		 						url:"json/checkAuth/"+userAuth,
+		 						method:"GET",
+		 						dataType:"text",
+		 						headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function(data, status) {
+									console.log(data);
+									if(data == 'ok'){
+									console.log('인증 성공');
+									}
+								}
+		 					}); 
+					
+				});
+			});	
 		//============= "취소"  Event 처리 및  연결 =============
 		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -192,9 +231,6 @@
 		    <div class="col-sm-3">
 		      <button type="button" class="btn btn-info">중복확인</button>
 		    </div>
-		    <div class="col-sm-3">
-		      <button type="button" class="btn btn-default">메일전송</button>
-		    </div>
 		  </div>
 		  
 		  <div class="form-group">
@@ -259,12 +295,21 @@
 		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">이메일</label>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control" id="email" name="email" placeholder="이메일">
+		      
+		      <button id="send" type="button" class="btn btn-default">메일전송</button>
+
+		       <input type="text" id="userAuth" name="userAuth" placeholder="인증번호"/>
+		       
+		      <button id="ok" type="button" class="btn btn-default">확인</button>
+
+		    
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >가 &nbsp;입</button>
+
+		      <button id="register" type="button" class="btn btn-primary"  >가 &nbsp;입</button>
 			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
 		    </div>
 		  </div>

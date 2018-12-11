@@ -35,10 +35,6 @@ public class UserController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
-	
-	@Resource(name= "mailSender")
-	private JavaMailSender mailSender;
-	// setter Method 구현 않음
 
 	public UserController() {
 		System.out.println(this.getClass());
@@ -177,29 +173,4 @@ public class UserController {
 		return "forward:/user/listUser.jsp";
 	}
 
-	@RequestMapping(value = "/mailSender")
-	public void sendMail(HttpServletRequest request)
-			throws FileNotFoundException, URISyntaxException {
-		
-		String from = "maximum.pjy@gmail.com";
-		String to = "maximum.pjy@gmail.com";
-
-		try {
-
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper 
-             = new MimeMessageHelper(message, true, "UTF-8");
-			
-			messageHelper.setFrom(from);
-			messageHelper.setTo(to);
-			messageHelper.setSubject("박정연 님의 문의메일");
-			messageHelper.setText("이메일 보내기 성공");
-
-			mailSender.send(message);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		}
-	}
 }
